@@ -1,0 +1,10 @@
+{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\R1\creation\BU.bnf
+"res":[{ http :// example .com / customerFile :001}]
+" ext-op ": [{
+    " name ": creation ,
+    " pre ": " cond ": [{time >= "2023-01-31" }]
+	" post ":" cond ": [{time <= "2023-03-31"}]
+    }]
+}
+
+

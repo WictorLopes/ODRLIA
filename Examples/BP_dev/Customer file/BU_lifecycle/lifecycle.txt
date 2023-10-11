@@ -1,0 +1,15 @@
+created-->opened
+verified-->rejected
+archived-->closed
+verified-->accepted
+updated
+created-->opened
+verified-->rejected
+archived-->closed
+verified-->accepted
+updated
+created-->opened
+verified-->rejected
+archived-->closed
+verified-->accepted
+updated

@@ -1,0 +1,16 @@
+{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\R1\acceptance\BU_0.bnf
+"res":[{ http :// example .com / customerFile :001}]
+"ext-op": [{
+    "name": verification ,
+	" pre ": " cond ": [{time >= "2023-01-15" }],
+	" post ":" cond ": [{time <= "2023-03-31"}]
+    " rel ": [{
+      "type ": precedes,
+      "op": [{
+          " name ": acceptance ,
+		  " pre ": " cond ": [{time >= "2023-04-01" }],
+	      " post ":" cond ": [{time <= "2023-04-10"}]
+		  }]
+}]
+}]
+}

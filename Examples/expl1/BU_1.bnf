@@ -1,0 +1,13 @@
+{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\expl1\BU_1.bnf
+"res":[{ http :// example .com / customerFile :001}]
+"ext-op": [{
+    "name":Second_verification ,
+    " pre ": " cond ": [{ timeInterval  =  P7D  and  location  = XX}],
+    " rel ": [{
+      "type ": precedes,
+      "op": [{
+          " name ":  acceptance ,
+          " pre ": " cond ": [{time >= T9:00Z and time <= T12:00Z}]
+}]
+}]
+}

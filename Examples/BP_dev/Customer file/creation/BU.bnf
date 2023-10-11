@@ -1,0 +1,7 @@
+{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\R1\creation\BU.bnf
+"res":[{ http :// example .com / customerFile :001}]
+" ext-op ": [{
+    " name ": creation ,
+    " pre ": " cond ": [{frequency <= 1PD and  event  =  https :// www . wikidata .org/ wiki /Q105766445}]
+    }]
+}

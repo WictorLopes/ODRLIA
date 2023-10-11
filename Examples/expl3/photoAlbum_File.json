@@ -1,0 +1,27 @@
+{
+    " @context ": "http://www.w3.org/ns/odrl.jsonld",
+    " @type ": "Agreement",
+    " uid ": "http://example.com/policy:5555",
+    " profile ": "http://example.com/odrl:profile:08",
+    " conflict ": "perm",
+    " permission ": [{
+        " target ": "http://example.com/photoAlbum:55",
+        " action ": " display ",
+        " assigner ": "http://example.com/MyPix:55",
+        " assignee ": "http://example.com/assignee:55"
+    }],
+    " prohibition ": [{
+        " target ": "http://example.com/photoAlbum:55",
+        " assigner ": "http://example.com/MyPix:55",
+        " assignee ": "http://example.com/assignee:55",
+		" action ": [{
+          " rdf : value ": { " @id ": " odrl : archive " },
+          " refinement ": [{
+             " leftOperand ": " resolution ",
+             " operator ": " iteq ",
+             " rightOperand ": { " @value ": " 500 ", " @type ": " xsd : integer " },
+             " unit ": " http://dbpedia.org/resource/Dots_per_inch "
+          }]
+      }]
+    }]
+}

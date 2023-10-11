@@ -1,0 +1,8 @@
+creat-->subm
+examined
+rejected
+accepted
+is_due
+defaulted
+reimb
+closed-->end

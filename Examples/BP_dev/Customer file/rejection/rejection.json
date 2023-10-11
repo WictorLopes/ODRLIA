@@ -1,0 +1,16 @@
+{
+ " @context ": " http :// www .w3. org /ns/ odrl . jsonld ",
+ " @type ": " Request ",
+ " uid ": " http :// example . com / policy :004",
+ " profile ": " http :// example . com / odrl : profile :04",
+ " permission ": [{
+ " target ": " http :// example .com / customerFile :001",
+ " assigner ": " http :// example . com / orgCustomer :002",
+ " assignee ": " http :// example . com / Organization / clerk :001",
+ " action ": [{
+ " rdf : value ": {" @id ": " odrl : rejection "},
+ " includedIn ":[{
+ " rdf : value ": {" @id ":" odrl : verification "}
+ }]
+ }] }]
+ }

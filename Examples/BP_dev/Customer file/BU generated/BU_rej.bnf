@@ -1,0 +1,11 @@
+{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\R1\rejection\BU_0.bnf
+"res":[{ http :// example .com / customerFile :001}]
+"ext-op": [{
+    "name": verification,
+    " rel ": [{
+      "type ": precedes,
+      "op": [{
+          " name ": rejection }]
+}]
+}]
+}
