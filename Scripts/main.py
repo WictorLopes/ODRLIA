@@ -23,18 +23,18 @@ def build_prompt(odrl_info):
 
 
 def extract_bus_from_bnf_file(file_path):
-    # Padrão para identificar BUs
     bu_pattern = r"BU_\d+\.bnf" 
     bus = [] 
+   
 
     try:
         with open(file_path, 'r') as file:
             content = file.read()
 
-            # Use a expressão regular para encontrar correspondências
+            
             matches = re.findall(bu_pattern, content)
 
-            # Processar as correspondências
+            
             for match in matches:
                 bus.append(match)
 
@@ -73,8 +73,9 @@ def generate_odrl_text():
 
 
 if __name__ == "__main__":
-    arquivo_odrl = "../Examples/expl1/BU_0.bnf"
-    extracted_bu = process_odrl_file(arquivo_odrl)
+    odrl_file = "../Examples/expl1/BU_0.bnf"
+    extracted_bu = process_odrl_file(odrl_file)
+
     
     if extracted_bu:
         print("Extracted BUs:")
