@@ -1,0 +1,14 @@
+{
+"@context": "http://www.w3.org/ns/odrl.jsonld",
+"@type": "Assertion",
+"uid": "http://example.com/policy:107",
+"profile": "http://example.com/odrl:profile:01",
+"permission": [{
+    "target": "http://example.com/creditApplication:001",
+    "assigner": "http://example.com/creditApplicationOrg:002/manager",
+    "action": "default",
+    "duty": [{
+         "action": "nextPolicy",
+         "target": "http://example.com/policy:109"}]
+    }]
+}

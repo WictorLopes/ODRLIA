@@ -1,7 +1,0 @@
-{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\expl3\BU_PRO.bnf
-"res":[{http://example.com/photoAlbum:55}]
-" ext-op ": [{
-    " name ": archive ,
-    " pre ": " cond ": [{ resolution  <=  500 }]
-    }]
-}

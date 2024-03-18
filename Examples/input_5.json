@@ -1,0 +1,19 @@
+{
+"@context": "http://www.w3.org/ns/odrl.jsonld",
+"@type": "Agreement",
+"uid": "http://example.com/policy:105",
+"profile": "http://example.com/odrl:profile:01",
+"permission": [{
+    "target": "http://example.com/creditApplication:001",
+    "assigner": "http://example.com/creditApplicationOrg:002",
+    "assignee": "http://example.com/creditApplicationOrg:002/APPManager:001",    
+    "action": [{
+        "rdf:value": {"@id": "odrl:acceptance"},
+    "duty": [{
+         "action": "examination",
+         "constraint": [{
+                "leftOperand": "event",
+                "operator": "lt",
+                "rightOperand": { "@id": "odrl:policyUsage"}}]}]
+    }]
+}

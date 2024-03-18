@@ -1,0 +1,14 @@
+{
+"uid": "http://example.org/BU11"
+"res": [{"customer-file", "physical"}]
+"ext-op": [{
+    "name":"creation",
+    "pre": "cond": [{"frequency=1PD" "and" "person=clerk:001"}],
+    "rel": [{
+        "type": "precedes",
+        "op": [{
+            "name":"opening", 
+            "pre": "cond": [{"person=clerk:001"}]}]
+        }]
+    }]
+}

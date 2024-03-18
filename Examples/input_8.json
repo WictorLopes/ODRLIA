@@ -1,0 +1,21 @@
+{
+"@context": "http://www.w3.org/ns/odrl.jsonld",
+"@type": "Assertion",
+"uid": "http://example.com/policy:108",
+"profile": "http://example.com/odrl:profile:01",
+"permission": [{
+    "target": "http://example.com/creditApplication:001",
+    "assigner": "http://example.com/creditApplicationOrg:002/manager",
+    "action": [{
+          "rdf:value": {
+            "@id": "odrl:reimbursement"},
+          "refinement": [{
+              "leftOperand": "payAmount",
+              "operator": "eq",
+              "rightOperand": { "@value": "50.00", "@type": "xsd:decimal" },
+              "unit": "http://dbpedia.org/resource/Euro"}]}],
+    "duty": [{
+         "action": "nextPolicy",
+         "target": "http://example.com/policy:109"}]
+    }]
+}

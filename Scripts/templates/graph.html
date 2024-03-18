@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resource Statechart Code Extractor</title>
+    <script type="module" defer>
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+        text-align: center;
+      }
+
+      form {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #mermaidContainer {
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Resource Statechart Code Extractor</h1>
+
+    <!-- Form to extract Mermaid codes -->
+    <form method="post" action="/graph">
+      <label for="input_text">Input:</label>
+      <textarea
+        id="input_text"
+        name="input_text"
+        rows="10"
+        cols="80"
+        placeholder="Enter your Resource Statechart code here..."
+      ></textarea>
+      <br />
+
+      <button type="submit">Extract Resource Statechart</button>
+    </form>
+
+    <!-- Area to display the graph -->
+    <h2>Resource Statechart:</h2>
+    <div id="mermaidContainer" class="mermaid" markdown="0" if="output_text">
+      {{output_text}}
+    </div>
+
+    <!-- Script to render Mermaid code -->
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the Mermaid code from the textarea element
+        const mermaidTextArea = document.getElementById("input_text");
+        const mermaidCodePre = document.getElementById("mermaidCode");
+
+        if (mermaidCodePre) {
+          // Display the Mermaid code on the pre element
+          mermaidCodePre.textContent = mermaidTextArea.value;
+
+          // Initialize the Mermaid library
+          mermaid.initialize({ startOnLoad: true });
+
+          // Render the graphic
+          mermaid.render(
+            "mermaidCode",
+            mermaidCodePre.textContent,
+            function (svgCode) {
+              // Replace the content of the pre element with the generated SVG code
+              mermaidCodePre.innerHTML = svgCode;
+            }
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+"uid": "http://example.org/BU1"
+"res": [{"credit-application", "physical"}]
+"ext-op": [{
+    "name":"creation",
+    "pre": "cond": [{"time= https://www.wikidata.org/wiki/Q7722" "and" "person=customers:002"}],   
+    "rel": [{
+        "type": "precedes",
+        "op": [{
+            "name":"submission", 
+            "pre": "cond": [{"person= creditApplictaion:001"}]
+        }]
+    }]
+}

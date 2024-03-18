@@ -1,7 +1,0 @@
-{"uid": C:\Users\amal\Google Drive\Projet Business Process\project\expl2\BU.bnf
-"res":[{ http://example.com/document:1234}]
-" ext-op ": [{
-    " name ": print ,
-    " pre ": " cond ": [{ resolution  <=  1200 }]
-    }]
-}
