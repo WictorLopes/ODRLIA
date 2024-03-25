@@ -416,6 +416,14 @@ def mermaid_drop():
         return render_template("dragAndDrop.html", input_text=input_text, output_text=output_text)
     else:
         return render_template("dragAndDrop.html", input_text="", output_text="")
+    
+    
+
+from flask import redirect
+
+@app.route("/")
+def main_page():
+    return redirect("/odrl")
 
 if __name__ == "__main__":
     app.run(debug=True, threaded=True)
