@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop</title>
+  </head>
+  <body style="background-color: #f8f9fa; font-family: Arial, sans-serif">
+    <div class="container">
+      <h2 style="margin-bottom: 20px; text-align: center">BUs List</h2>
+      <div id="bu-list" class="list">
+        <div class="bu" draggable="true" id="bu1">BU 1</div>
+        <div class="bu" draggable="true" id="bu2">BU 2</div>
+        <div class="bu" draggable="true" id="bu3">BU 3</div>
+        <div class="bu" draggable="true" id="bu4">BU 4</div>
+        <div class="bu" draggable="true" id="bu5">BU 5</div>
+      </div>
+      <h2 style="margin-top: 40px; margin-bottom: 20px; text-align: center">
+        Final Process
+      </h2>
+      <div id="process" class="list droppable"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const buList = document.getElementById("bu-list");
+        const process = document.getElementById("process");
+
+        // Array for storing BUs and their positions
+        let buPositions = [];
+
+        // Add drag and drop events to the BUs
+        buList.addEventListener("dragstart", dragStart);
+        process.addEventListener("dragover", dragOver);
+        process.addEventListener("drop", drop);
+
+        function dragStart(event) {
+         // Defines the ID of the element being dragged
+          event.dataTransfer.setData("text/plain", event.target.id);
+        }
+
+        function dragOver(event) {
+          // Prevents the default behavior of allowing drop
+          event.preventDefault();
+        }
+
+        function drop(event) {
+          // Prevents the default behavior of allowing drop
+          event.preventDefault();
+
+          // Get the ID of the dragged element
+          const buId = event.dataTransfer.getData("text/plain");
+          const bu = document.getElementById(buId);
+
+          // Add the BU to the process area
+          const rect = process.getBoundingClientRect();
+          const offsetX = event.clientX - rect.left;
+          const offsetY = event.clientY - rect.top;
+
+          const buClone = bu.cloneNode(true);
+          buClone.style.position = "absolute";
+          buClone.style.left = offsetX + "px";
+          buClone.style.top = offsetY + "px";
+          process.appendChild(buClone);
+
+          // Removes the BU from the original list
+          bu.parentNode.removeChild(bu);
+
+          // Add the BU and its position to the array
+          buPositions.push({
+            id: buId,
+            x: offsetX,
+            y: offsetY,
+          });
+
+          // Redraw the connection lines
+          redrawLines();
+        }
+
+        function redrawLines() {
+          // Clear existing connection lines
+          const existingLines = document.querySelectorAll(".line");
+          existingLines.forEach((line) => line.parentNode.removeChild(line));
+
+          // Draw the new connection lines
+          for (let i = 1; i < buPositions.length; i++) {
+            const startX = buPositions[i - 1].x + 25; // Offset to the center of the BU
+            const startY = buPositions[i - 1].y + 25; // Offset to the center of the BU
+            const endX = buPositions[i].x + 25; // Offset to the center of the BU
+            const endY = buPositions[i].y + 25; // Offset to the center of the BU
+
+            const line = document.createElement("div");
+            line.classList.add("line");
+            line.style.position = "absolute";
+            line.style.width =
+              Math.sqrt(
+                Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
+              ) + "px";
+            line.style.height = "4px"; 
+            line.style.backgroundColor = "#007bff"; 
+            line.style.borderRadius = "2px"; 
+            line.style.left = startX + "px";
+            line.style.top = startY + "px";
+            line.style.transformOrigin = "left center";
+            line.style.transform =
+              "rotate(" + Math.atan2(endY - startY, endX - startX) + "rad)";
+            process.appendChild(line);
+          }
+        }
+      });
+    </script>
+  </body>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+      margin-top: 50px;
+      position: relative;
+    }
+
+    .list {
+      border: 2px solid #6c757d;
+      padding: 20px;
+      margin: 10px;
+      min-height: 300px;
+      width: 500px;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .bu {
+      background-color: #ffffff;
+      border: 2px solid #6c757d;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .bu:hover {
+      background-color: #e9ecef;
+    }
+
+    .droppable {
+      min-height: 235px;
+      position: relative;
+    }
+
+    svg {
+      z-index: 0; 
+    }
+  </style>
+</html>

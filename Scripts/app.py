@@ -407,5 +407,15 @@ def mermaid():
     else:
         return render_template("graph.html", input_text="", output_text="")
 
+
+@app.route("/drop", methods=["GET", "POST"])
+def mermaid_drop():
+    if request.method == "POST":
+        input_text = request.form["input_text"]
+        output_text = mermaidCode_app.extract_mermaid(input_text)
+        return render_template("dragAndDrop.html", input_text=input_text, output_text=output_text)
+    else:
+        return render_template("dragAndDrop.html", input_text="", output_text="")
+
 if __name__ == "__main__":
     app.run(debug=True, threaded=True)

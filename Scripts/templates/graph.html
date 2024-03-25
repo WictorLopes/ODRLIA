@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resource Statechart Code Extractor</title>
+    <title>State Chart Renderer</title>
     <script type="module" defer>
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.esm.min.mjs";
       mermaid.initialize({ startOnLoad: true });
@@ -46,6 +46,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         resize: vertical;
+        outline: none;
       }
 
       button {
@@ -69,7 +70,7 @@
   </head>
 
   <body>
-    <h1>Resource Statechart Code Extractor</h1>
+    <h1>State Chart Renderer</h1>
 
     <!-- Form to extract Mermaid codes -->
     <form method="post" action="/graph">
@@ -80,6 +81,7 @@
         rows="10"
         cols="80"
         placeholder="Enter your Resource Statechart code here..."
+        spellcheck="false"
       ></textarea>
       <br />
 
