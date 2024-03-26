@@ -21,13 +21,29 @@
       <div id="process" class="list droppable"></div>
     </div>
 
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Connect to which previous BU(s)?</p>
+        <div class="checkboxes-container" id="checkboxesContainer"></div>
+        <button id="connectButton">Connect</button>
+      </div>
+    </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const buList = document.getElementById("bu-list");
         const process = document.getElementById("process");
+        const modal = document.getElementById("myModal");
+        const connectButton = document.getElementById("connectButton");
 
         // Array for storing BUs and their positions
         let buPositions = [];
+        // Array for storing connections between BUs
+        let connections = [];
+        // Mapping connections to colors
+        const connectionColors = {};
 
         // Add drag and drop events to the BUs
         buList.addEventListener("dragstart", dragStart);
@@ -35,7 +51,7 @@
         process.addEventListener("drop", drop);
 
         function dragStart(event) {
-         // Defines the ID of the element being dragged
+          // Defines the ID of the element being dragged
           event.dataTransfer.setData("text/plain", event.target.id);
         }
 
@@ -73,8 +89,68 @@
             y: offsetY,
           });
 
-          // Redraw the connection lines
-          redrawLines();
+          // Open modal to select previous BUs to connect
+          if (buPositions.length > 1) {
+            openModal(buId);
+          } else {
+            // If it's the first BU, connect directly without modal
+            connections.push({
+              startId: buPositions[0].id,
+              endId: buId,
+            });
+            redrawLines();
+          }
+        }
+
+        function openModal(currentBuId) {
+          const checkboxesContainer = document.getElementById(
+            "checkboxesContainer"
+          );
+          checkboxesContainer.innerHTML = "";
+
+          buPositions.forEach((bu) => {
+            if (bu.id !== currentBuId) {
+              const checkbox = document.createElement("input");
+              checkbox.type = "checkbox";
+              checkbox.id = `${bu.id}Checkbox`;
+              checkbox.value = bu.id;
+              const label = document.createElement("label");
+              label.htmlFor = checkbox.id;
+              label.textContent = bu.id;
+              checkboxesContainer.appendChild(checkbox);
+              checkboxesContainer.appendChild(label);
+              checkboxesContainer.appendChild(document.createElement("br"));
+            }
+          });
+
+          modal.style.display = "block";
+
+          // Close modal when the user clicks on <span> (x)
+          const closeButton = document.querySelector(".close");
+          closeButton.onclick = function () {
+            modal.style.display = "none";
+          };
+
+          // Connect BUs when the user clicks on "Connect" button
+          connectButton.onclick = function () {
+            const selectedBUs = Array.from(
+              document.querySelectorAll(
+                ".checkboxes-container input[type='checkbox']:checked"
+              )
+            ).map((checkbox) => checkbox.value);
+            selectedBUs.forEach((startId) => {
+              connections.push({
+                startId: startId,
+                endId: currentBuId,
+              });
+              // Assign color to connection if not already assigned
+              if (!(startId in connectionColors)) {
+                connectionColors[startId] = getRandomColor();
+              }
+            });
+            redrawLines();
+            modal.style.display = "none";
+          };
         }
 
         function redrawLines() {
@@ -83,29 +159,69 @@
           existingLines.forEach((line) => line.parentNode.removeChild(line));
 
           // Draw the new connection lines
-          for (let i = 1; i < buPositions.length; i++) {
-            const startX = buPositions[i - 1].x + 25; // Offset to the center of the BU
-            const startY = buPositions[i - 1].y + 25; // Offset to the center of the BU
-            const endX = buPositions[i].x + 25; // Offset to the center of the BU
-            const endY = buPositions[i].y + 25; // Offset to the center of the BU
+          connections.forEach((conn) => {
+            const startBu = buPositions.find((bu) => bu.id === conn.startId);
+            const endBu = buPositions.find((bu) => bu.id === conn.endId);
 
-            const line = document.createElement("div");
-            line.classList.add("line");
-            line.style.position = "absolute";
-            line.style.width =
-              Math.sqrt(
+            if (startBu && endBu) {
+              const startX = startBu.x + 25; // Offset to the center of the BU
+              const startY = startBu.y + 25; // Offset to the center of the BU
+              const endX = endBu.x + 25; // Offset to the center of the BU
+              const endY = endBu.y + 25; // Offset to the center of the BU
+
+              const line = document.createElement("div");
+              line.classList.add("line");
+              line.style.position = "absolute";
+              // Calculates total length of the line
+              const totalLength = Math.sqrt(
                 Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
-              ) + "px";
-            line.style.height = "4px"; 
-            line.style.backgroundColor = "#007bff"; 
-            line.style.borderRadius = "2px"; 
-            line.style.left = startX + "px";
-            line.style.top = startY + "px";
-            line.style.transformOrigin = "left center";
-            line.style.transform =
-              "rotate(" + Math.atan2(endY - startY, endX - startX) + "rad)";
-            process.appendChild(line);
-          }
+              );
+
+              // Calculates the percentage corresponding to 10% of the total length
+              const percentageToSubtract = totalLength * 0.1; 
+
+              // Set a minimum difference threshold for applying the reduction
+              const smallDifferenceThreshold = 350; 
+              const lengthThreshold = 150; 
+
+              // Checks if the difference between the original length and the adjusted length is greater than the minimum threshold
+              if (
+                totalLength - percentageToSubtract >
+                smallDifferenceThreshold
+              ) {
+                // Calculates the adjusted line length by reducing by 10%
+                const adjustedLength = totalLength - percentageToSubtract;
+                line.style.width = adjustedLength + "px";
+              } else if (totalLength > lengthThreshold) {
+                // Check if the total length is greater than the minimum length threshold
+                 // Calculates the adjusted line length by reducing by 20%
+                const largerPercentageToSubtract = totalLength * 0.2;
+                const adjustedLength = totalLength - largerPercentageToSubtract;
+                line.style.width = adjustedLength + "px";
+              } else {
+                // Calculates the amount to be reduced as a percentage (0.3% of the total length)
+                const percentageToReduce = totalLength * 0.3; 
+
+                // If the total length is less than the minimum length threshold, reduce the calculated amount
+                const reducedLength = totalLength - percentageToReduce; 
+                line.style.width = reducedLength + "px";
+              }
+              line.style.height = "4px";
+              line.style.backgroundColor = connectionColors[conn.startId];
+              line.style.borderRadius = "2px";
+              line.style.left = startX + "px";
+              line.style.top = startY + "px";
+              line.style.transformOrigin = "left center";
+              line.style.transform =
+                "rotate(" + Math.atan2(endY - startY, endX - startX) + "rad)";
+              process.appendChild(line);
+            }
+          });
+        }
+
+        
+        function getRandomColor() {
+          return "#" + Math.floor(Math.random() * 16777215).toString(16);
         }
       });
     </script>
@@ -113,7 +229,7 @@
   <style>
     .container {
       display: flex;
-      flex-direction: column; 
+      flex-direction: column;
       align-items: center;
       margin-top: 50px;
       position: relative;
@@ -151,8 +267,74 @@
       position: relative;
     }
 
-    svg {
-      z-index: 0; 
+    .line {
+      position: absolute;
+      z-index: 0;
+      overflow: visible; 
+    }
+
+    .line::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 0;
+      height: 0;
+      margin-top: 0px; 
+      margin-left: 2px; 
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid #007bff; 
+      transform: translateY(-50%); 
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 50%;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .checkboxes-container {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    select {
+      width: 100%;
+      height: 100px;
+    }
+
+    button {
+      margin-top: 10px;
     }
   </style>
 </html>
