@@ -31,6 +31,11 @@ Resource Statechart Code Extractor is a web application designed to facilitate t
     -   Proceed to `/graph`.
     -   Generate the graph for the lifecycle.
 
+4.  **Drag And Drop:**
+    
+    -   Proceed to `/drop`.
+    -   Still in the development process.
+
 ## Backend Operation
 
 The backend of this application, developed in Python, integrates with the OpenAI API to process textual descriptions provided by the user and automatically generate appropriate responses.

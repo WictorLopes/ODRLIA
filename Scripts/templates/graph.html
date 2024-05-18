@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>State Chart Renderer</title>
+    <title>Lifecycle Renderer</title>
     <script type="module" defer>
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.esm.min.mjs";
       mermaid.initialize({ startOnLoad: true });
@@ -70,7 +70,7 @@
   </head>
 
   <body>
-    <h1>State Chart Renderer</h1>
+    <h1>Lifecycle Renderer</h1>
 
     <!-- Form to extract Mermaid codes -->
     <form method="post" action="/graph">
@@ -80,16 +80,16 @@
         name="input_text"
         rows="10"
         cols="80"
-        placeholder="Enter your Resource Statechart code here..."
+        placeholder="Enter your Lifecycle code here..."
         spellcheck="false"
       ></textarea>
       <br />
 
-      <button type="submit">Extract Resource Statechart</button>
+      <button type="submit">Extract Lifecycle</button>
     </form>
 
     <!-- Area to display the graph -->
-    <h2>Resource Statechart:</h2>
+    <h2>Lifecycle:</h2>
     <div id="mermaidContainer" class="mermaid" markdown="0" if="output_text">
       {{output_text}}
     </div>
